@@ -141,13 +141,15 @@ fi
 if [ "$fonts" = "y" ]; then
   install_message "fonts"
   ## install fonts
-  https://github.com/githubnext/monaspace.git
+  sudo apt install zip
+  git clone https://github.com/githubnext/monaspace.git
   bash util/install_linux.sh
   LATEST_URL=$(curl -s https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest | grep "browser_download_url.*Hasklig.zip" | cut -d '"' -f 4)
   curl -LO "$LATEST_URL"
   mkdir -p ~/.local/share/fonts/Hasklig
   unzip Hasklig.zip -d ~/.local/share/fonts/Hasklig
   rm Hasklig.zip
+  rm ~/.local/share/fonts/Hasklig/LICENSE.md ~/.local/share/fonts/Hasklig/README.md
 else
   skip_message "fonts"
 fi
@@ -162,7 +164,7 @@ fi
 
 if [[ "$vim" = "y" && "$neovim" = "y" ]]; then
   install_message "neovim"
-  ## install neovim [lazyvim required neovim > v9.0, ubuntu 22.04 support neovim v9.5. so, we are good.]
+  ## install neovim [lazyvim required neovim > v0.9.0, ubuntu 22.04 support neovim v0.9.5. so, we are good.]
   sudo apt install neovim
 else
   skip_message "neovim"
@@ -170,6 +172,8 @@ fi
 
 if [[ "$vim" = "y" && "$neovim" = "y" && "$lazyvim" = "y" ]]; then
   install_message "lazyvim"
+  sudo apt update
+  sudo apt install build-essential
   ## install lazyvim
   ### make backup
   ### required
@@ -191,8 +195,9 @@ if [ "$lazygit" = "y" ]; then
   LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
-  sudo install lazygit -D -t /usr/local/bin/
+  sudo mv lazygit /usr/local/bin/
   lazygit --version
+  rm lazygit.tar.gz
 else
   skip_message "lazygit"
 fi
@@ -202,7 +207,7 @@ if [ "$php" = "y" ]; then
   ## install onjdre php
   sudo add-apt-repository ppa:ondrej/php
   sudo apt update
-  sudo apt install php8.4 php8.4-fpm php8.4-opcache php8.4-mysql php8.4-pgsql php8.4-common php8.4-mbstring php8.4-curl php8.4-soap php8.4-zip php8.4-gd php8.4-xml php8.4-intl php8.4-imagick
+  sudo apt install php8.4 php8.4-fpm php8.4-opcache php8.4-sqlite3 php8.4-mysql php8.4-pgsql php8.4-common php8.4-mbstring php8.4-curl php8.4-soap php8.4-zip php8.4-gd php8.4-xml php8.4-intl php8.4-imagick
 else
   skip_message "php"
 fi

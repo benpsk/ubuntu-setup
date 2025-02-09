@@ -164,7 +164,7 @@ fi
 
 if [[ "$vim" = "y" && "$neovim" = "y" ]]; then
   install_message "neovim"
-  ## install neovim [lazyvim required neovim > v0.9.0, ubuntu 22.04 support neovim v0.9.5. so, we are good.]
+  ## install neovim [lazyvim required neovim > v0.9.0, ubuntu 24.04 support neovim v0.9.5. so, we are good.]
   sudo apt install neovim
 else
   skip_message "neovim"
